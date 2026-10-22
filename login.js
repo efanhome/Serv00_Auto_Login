@@ -4,6 +4,13 @@ const puppeteer = require('puppeteer');
 // 默认无头运行（CI 不需要 xvfb）；需要看浏览器界面时用 HEADLESS=0
 const HEADLESS = process.env.HEADLESS !== '0';
 
+// GitHub Actions 的 ubuntu-24.04 禁用了非特权 user namespace，
+// Chrome 的 sandbox 起不来（No usable sandbox!），只能在 CI 里关掉。
+// 本地跑保留 sandbox。
+const ARGS = process.env.CI
+  ? ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
+  : [];
+
 function formatToISO(date) {
   return date.toISOString().replace('T', ' ').replace('Z', '').replace(/\.\d{3}Z/, '');
 }
@@ -21,7 +28,7 @@ function delayTime(ms) {
   for (const account of accounts) {
     const { username, password, panelnum } = account;
 
-    const browser = await puppeteer.launch({ headless: HEADLESS });
+    const browser = await puppeteer.launch({ headless: HEADLESS, args: ARGS });
     const page = await browser.newPage();
 
     const url = `https://panel${panelnum}.serv00.com/login/?next=/`;
