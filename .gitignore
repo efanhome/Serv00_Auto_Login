@@ -1,0 +1,9 @@
+# 账号密码等敏感信息，切勿提交（CI 上由 ACCOUNTS_JSON secret 现场生成）
+accounts.json
+
+# 依赖
+node_modules/
+
+# 日志与系统文件
+*.log
+.DS_Store

@@ -1,0 +1,13 @@
+{
+  "name": "serv00-auto-login",
+  "version": "1.0.0",
+  "description": "Serv00 控制面板自动登录脚本",
+  "main": "login.js",
+  "scripts": {
+    "start": "node login.js"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "puppeteer": "^25.15.0"
+  }
+}
